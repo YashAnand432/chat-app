@@ -1,4 +1,3 @@
-import { send } from "vite";
 import User from "../models/user.models.js";
 
 export const getUsersForSidebar = async(req, res) => {

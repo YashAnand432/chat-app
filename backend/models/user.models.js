@@ -7,6 +7,23 @@ const userSchema = new mongoose.Schema({
     gender:{type:String, required:true, enum:["Male", "Female"]},
     profilePic:{type:String, default:""},
     
+    friends : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+    }],
+
+    friendRequestsSent: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+    }],
+
+    friendRequestsReceived: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+    }]
 }, {timeseries:true});
 
 const User = mongoose.model("User", userSchema);

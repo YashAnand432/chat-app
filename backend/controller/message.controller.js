@@ -1,12 +1,16 @@
 import Conversation from "../models/conversation.models.js"
 import Message from "../models/message.models.js"
+import User from "../models/user.models.js";
 import { getReceiverSocketId, io } from "../socket/socket.js";
 export const sendMessage = async(req, res) => {
     try {
         const {message} = req.body;
         const {id : receiverId} = req.params; //we could also go for const {id} = req.params;
         const senderId = req.user._id;
-
+        const sender = await User.findById(senderId);
+        if(!sender.friends.includes(receiverId)){
+            return res.status(500).json({message: "You can only send messages to friends."});
+        }
         let conversation = await Conversation.findOne({
             participants : { $all : [senderId, receiverId]},
         })
